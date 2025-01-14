@@ -7,16 +7,16 @@ def test_camera(camera_index=1):
     cap = cv2.VideoCapture(camera_index)
     
     if not cap.isOpened():
-        print(f"❌ Cannot open camera at index {camera_index}")
+        print(f"No: Cannot open camera at index {camera_index}")
         return False
     
     ret, frame = cap.read()
     if not ret:
-        print(f"❌ Cannot read frame from camera at index {camera_index}")
+        print(f"No: Cannot read frame from camera at index {camera_index}")
         cap.release()
         return False
         
-    print(f"✅ Camera at index {camera_index} is working")
+    print(f"Yes: Camera at index {camera_index} is working")
     print(f"Resolution: {frame.shape[1]}x{frame.shape[0]}")
     cap.release()
     return True
@@ -32,10 +32,10 @@ def test_sensor(port="COM5"):
         data, _, en_station_fromgate = sensor.get_radar_data()
         
         if data is None:
-            print(f"❌ Cannot read data from sensor at port {port}")
+            print(f"No: Cannot read data from sensor at port {port}")
             return False
             
-        print(f"✅ Sensor at port {port} is working")
+        print(f"Yes: Sensor at port {port} is working")
         print(f"Data received: {data}")
         
         sensor.disable_engineering_mode()
@@ -43,7 +43,7 @@ def test_sensor(port="COM5"):
         return True
         
     except Exception as e:
-        print(f"❌ Error with sensor at port {port}: {str(e)}")
+        print(f"No: Error with sensor at port {port}: {str(e)}")
         return False
 
 def find_working_camera():
@@ -74,7 +74,7 @@ if __name__ == "__main__":
         print("\nTrying to find working camera...")
         working_camera = find_working_camera()
         if working_camera is not None:
-            print(f"\n💡 Update camera index to {working_camera} in modules/camera.py")
+            print(f"\nNote: Update camera index to {working_camera} in modules/camera.py")
     
     # Test current sensor
     sensor_works = test_sensor("COM5")
@@ -82,9 +82,9 @@ if __name__ == "__main__":
         print("\nTrying to find working sensor...")
         working_port = find_working_sensor()
         if working_port is not None:
-            print(f"\n💡 Update sensor port to {working_port} in modules/sensor.py")
+            print(f"\nNote: Update sensor port to {working_port} in modules/sensor.py")
     
     if camera_works and sensor_works:
-        print("\n✅ All devices are working correctly!")
+        print("\nYes: All devices are working correctly!")
     else:
-        print("\n⚠️ Some devices need configuration!") 
+        print("\nNo: Some devices need configuration!") 
